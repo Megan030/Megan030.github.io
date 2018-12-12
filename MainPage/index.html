@@ -1,54 +1,113 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Light Button</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="main.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<title>CPF-Coaster</title>
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="https://stackpath.bpptstra[cdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+
+<title>指針溫度計</title>
 </head>
 <body>
-<font id="title">Easy Control</font><p><br>
-
-<div id="content" class="row">
-	<div class="col-sm-12  col-xs-12">
-        <span class="analogvalue" id="d2">none</span><br>
-        <button onClick="light();">click me</button>
-        <button onClick="off();">off</button>
-	</div>
+<div class="container">
+<div class="col-xs-12">
+<div class="images">
+<img id="thermometer" src="img/thermometer.png">
+<img id="pointer" src="img/pointer.png">
 </div>
 
+<br/>
+<h3>Degerr"<span id="degree">none</span>ﾟ</h3>
+<h3>Temperature:<span id="temp">none</span>ﾟC</h3>
+
+</div>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
 <script>
-	
-	var led;
+	var celsius=0;
+	var degree=0;
 	setup();
-	// Analog
-	function loop() {
-		if(cpf){
 	
-			led = cpf.get("d2");
-			document.getElementById("d2").innerHTML = led;
+	function loop(){
+		if(cpf){
+			tempdata=cpf.get("temperature sensor");
+			celsius=toCelsius(tempdata);
+			document.getElementById("temp").innerHTML=celsius;
 			
+			if (celsius>=-30 &&celsius<=50) {
+				degree=Math.floor((180/80)*celsius+67.5);
+				document.getElementById("pointer").style.transform="rotate("+degree+"deg)";
+				document.getElementById("degree").innerHTML=degree;
+				cpf.request('["analogWrite", 4,'+Math.abs(degree-180)+']');
+			}
 		}
-		setTimeout(loop, 1000);
+		setTimeout(loop,1000);
 	}
 	loop();
 
+	function toCelsius(value) {
+		var resistance=parseFloat((1023-value)*10000/value);
+		var temperature=1/(Math.log(resistance/10000)/3975+1/298.15)-273.15;
+		return temperature.toFixed(2);
+	}
 
-	function light(){
-        cpf.set("d2", 1);
-    }
+	function setup() {
+		if (cpf) {
+			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog",1,"INPUT"], ["setPinMode", "digital",4,"SERVO"]');
+		}
+	}
 
-    function off(){
-        cpf.set("d2", 0);
-    }
-	
-	// cpf setup
-	function setup(){
-		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "digital", 2, "OUTPUT"]'); 
+</script>
+	<style>
+	*{
+		font-family: Microsoft JhengHei;
 	}
 	
-</script>
-</body>
-</html>
+	html,body{
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	
+	body{
+		background-color: #9ccdfb;
+	}
+
+	.images{
+		position: relative;
+		width: 100%;
+		height: 250px;
+	}
+
+	#thermometer{
+		position: absolute;
+		width: 100%;
+		left: 50%;
+		bottom: 10px;
+		transform: translateX(-50%)
+	}
+
+	#pointer{
+		position: absolute;
+		width: 30%;
+		bottom: 2px;
+		right: 50%;
+		transform: translateX(5px);
+		transform-origin: 100% 50%;
+		transform: rotate(0deg);
+		transition: 0.5s;
+		}
+
+
+
+
+
+
+	</style>
