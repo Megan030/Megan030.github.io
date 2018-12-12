@@ -64,9 +64,9 @@
 
 	function setup() {
 		if (cpf) {
-			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"]');
+			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"], ["resetPin"],["grove_rgblcd_begin", 16, 2]');
 			//LCD
-			cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
+			//cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
 			cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
 		}
 	}
