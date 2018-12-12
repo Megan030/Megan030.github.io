@@ -1,236 +1,113 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
 <title>CPF-Coaster</title>
 
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="./style.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="https://stackpath.bpptstra[cdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+
+<title>指針溫度計</title>
 </head>
 <body>
 <div class="container">
-		
-	<div id="bg"></div>
-	<!-- 標題 -->
-	<div id="title-edit">
-		<center>
-			<h3>標題設定</h3>
-			<span>第一行：<input type="text" id="title1-value"></input></span><br><br>
-			<span>第二行：<input type="text" id="title2-value"></input></span><br><br>
-			<button onclick="changeTitle()">確認</button>
-		</center>
-	</div>
-	
-	<div id="flower-field">
-		<img id="flower" src="./images/flower.png" />
-	</div>
-	
-	<div id="font-field">
-		<font id="title1">平安喜樂</font><br>
-		<font id="title2">平安喜樂</font>
-	</div>
-	<!---------->
-	
-	<!-- 物品 -->
-	<div id="item-edit">
-		<center>
-		<img onclick="changeItem('cup', 5)" src="./images/item1.png" />
-		<img onclick="changeItem('bowl', 5)" src="./images/item2.png" />
-		<img onclick="changeItem('milk', 6)" src="./images/item3.png" />
-		</center>
-	</div>
-	
-	<div id="item-field">
-		<img id="item-img" src="./images/cup.png" >
-	</div>
-	<!---------->
-	
-	<!-- 數值 -->
-	<div id="value-field">
-			<img class="value-icon" src="./images/temperature.png" />
-			<span id="temp" class="value-number">70℃</span><br>
-			<img class="value-icon2" src="./images/weighing.png" />
-			<span id="weight" class="value-number2">1234 公克</span>
-	</div>
-	<!---------->
-	
-	<!-- 容量 -->
-	<div id="cup-field">
-		<img class="cup-icon" src="./images/cup_full.png" />
-		<img class="cup-icon" src="./images/cup_full.png" />
-		<img class="cup-icon" src="./images/cup_full.png" />
-		<img class="cup-icon" src="./images/cup_full.png" />
-		<img class="cup-icon" src="./images/cup_full.png" />
-	</div>
-	<span class="cup-value" id="cup_value"><font color="#3CB9A6" id="total">1600</font> ml</span>
-	<!---------->
-	
+<div class="col-xs-12">
+<div class="images">
+<img id="thermometer" src="img/thermometer.png">
+<img id="pointer" src="img/pointer.png">
 </div>
 
+<br/>
+<h3>Degerr"<span id="degree">none</span>ﾟ</h3>
+<h3>Temperature:<span id="temp">none</span>ﾟC</h3>
+
+</div>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
 <script>
-	
+	var celsius=0;
+	var degree=0;
 	setup();
 	
-	var temp;
-	var now_press;
-	var prev_press;
-	var drink_press;
-	var total = 0;
-	var drinktime;
-	
-	var slug = false;
-	
-	setInterval(loop, 1000);
-	
-	function loop() {
-	
-		temp = cpf.get("socket a1");
-		now_press = cpf.get("socket a0");
-		now_press = now_press * 2;
-		
-		document.getElementById("temp").innerHTML = toCelsius(temp) + '℃';
-		document.getElementById("weight").innerHTML = now_press + '公克';
-		
-		if (now_press == 0) {
-			drink_press = prev_press;
-			drinktime = Date.now();
-			slug = true;
-		} else {
-			if(slug) {
-				if (Date.now() - drinktime >= 3000) {
-					if (drink_press - now_press > 20) {
-						total += drink_press - now_press;
-					}
-					slug = false;
-				}
+	function loop(){
+		if(cpf){
+			tempdata=cpf.get("temperature sensor");
+			celsius=toCelsius(tempdata);
+			document.getElementById("temp").innerHTML=celsius;
+			
+			if (celsius>=-30 &&celsius<=50) {
+				degree=Math.floor((180/80)*celsius+67.5);
+				document.getElementById("pointer").style.transform="rotate("+degree+"deg)";
+				document.getElementById("degree").innerHTML=degree;
+				cpf.request('["analogWrite", 4,'+Math.abs(degree-180)+']');
 			}
-			prev_press = now_press;
 		}
-		
-		/*if(total >= 2000) {
-			document.getElementById("cup1").src = './images/cup_empty.png';
-			document.getElementById("cup2").src = './images/cup_empty.png';
-			document.getElementById("cup3").src = './images/cup_empty.png';
-			document.getElementById("cup4").src = './images/cup_empty.png';
-			document.getElementById("cup5").src = './images/cup_empty.png';
-		} else if(total >= 1600) {
-			document.getElementById("cup1").src = './images/cup_empty.png';
-			document.getElementById("cup2").src = './images/cup_empty.png';
-			document.getElementById("cup3").src = './images/cup_empty.png';
-			document.getElementById("cup4").src = './images/cup_empty.png';
-			document.getElementById("cup5").src = './images/cup_full.png';
-		} else if(total >= 1200) {
-			document.getElementById("cup1").src = './images/cup_empty.png';
-			document.getElementById("cup2").src = './images/cup_empty.png';
-			document.getElementById("cup3").src = './images/cup_empty.png';
-			document.getElementById("cup4").src = './images/cup_full.png';
-			document.getElementById("cup5").src = './images/cup_full.png';
-		} else if(total >= 800) {
-			document.getElementById("cup1").src = './images/cup_empty.png';
-			document.getElementById("cup2").src = './images/cup_empty.png';
-			document.getElementById("cup3").src = './images/cup_full.png';
-			document.getElementById("cup4").src = './images/cup_full.png';
-			document.getElementById("cup5").src = './images/cup_full.png';
-		} else if(total >= 400) {
-			document.getElementById("cup1").src = './images/cup_empty.png';
-			document.getElementById("cup2").src = './images/cup_full.png';
-			document.getElementById("cup3").src = './images/cup_full.png';
-			document.getElementById("cup4").src = './images/cup_full.png';
-			document.getElementById("cup5").src = './images/cup_full.png';
-		} else {
-			document.getElementById("cup1").src = './images/cup_full.png';
-			document.getElementById("cup2").src = './images/cup_full.png';
-			document.getElementById("cup3").src = './images/cup_full.png';
-			document.getElementById("cup4").src = './images/cup_full.png';
-			document.getElementById("cup5").src = './images/cup_full.png';
-		}*/
-		
-		document.getElementById("total").innerHTML = total;
-		
+		setTimeout(loop,1000);
 	}
-	
-	function changeTitle() {
-		var value1 = document.getElementById("title1-value").value;
-		var value2 = document.getElementById("title2-value").value;
-		
-		document.getElementById("title1").style.fontSize = value1.length + 'vw';
-		document.getElementById("title2").style.fontSize = value2.length + 'vw';
-		
-		document.getElementById("title1").innerHTML = value1;
-		document.getElementById("title2").innerHTML = value2;
-		
-		document.getElementById("title-edit").style.display = 'none';
-		document.getElementById("bg").style.display = 'none';
-	}
-	
-	function changeItem(name, count) {
-		document.getElementById("item-img").src = './images/'+name+'.png';
-		
-		document.getElementById("cup-field").innerHTML = '';
-		for(var i = 1; i <= count; i++) {
-			document.getElementById("cup-field").innerHTML += '<img class="cup-icon" src="./images/'+name+'_full.png" />';
-		}
-		
-		if(name == 'cup') {
-			document.getElementById("cup_value").innerHTML ='<font color="#3CB9A6" id="total">0</font> ml';
-			document.getElementById("cup_value").style.right = '13%';
-			document.getElementById("title1").innerHTML = '平安喜樂';
-			document.getElementById("title2").innerHTML = '';
-		} else if(name == 'bowl') {
-			document.getElementById("cup_value").innerHTML ='<font color="#4FA136" id="total">0</font> kcal';
-			document.getElementById("cup_value").style.right = '13%';
-			document.getElementById("title1").innerHTML = '粒粒皆辛苦';
-			document.getElementById("title2").innerHTML = '';
-		} else if(name == 'milk') {
-			document.getElementById("cup_value").innerHTML ='';
-			document.getElementById("cup_value").style.right = '8%';
-			document.getElementById("title1").innerHTML = '一暝大一寸';
-			document.getElementById("title2").innerHTML = '';
-		}
-		
-		document.getElementById("item-edit").style.display = 'none';
-		document.getElementById("bg").style.display = 'none';
-	}
-	
-	document.getElementById("flower").addEventListener("click", function() {
-		document.getElementById("title-edit").style.display = 'inline';
-		document.getElementById("bg").style.display = 'inline';
-	});
-	
-	document.getElementById("item-field").addEventListener("click", function() {
-		document.getElementById("item-edit").style.display = 'inline';
-		document.getElementById("bg").style.display = 'inline';
-	});
-	
-	document.getElementById("bg").addEventListener("click", function() {
-		document.getElementById("title-edit").style.display = 'none';
-		document.getElementById("item-edit").style.display = 'none';
-		document.getElementById("bg").style.display = 'none';
-	});
-	
-	// 溫度轉攝氏
+	loop();
+
 	function toCelsius(value) {
-		var steinhart;
-
-		// convert the value to resistance
-		value = 1023 / value - 1;
-		value = 10000 / value;
-
-		steinhart=Math.log(value/10000);
-		steinhart /= 3950;
-		steinhart += 1.0 / (25 + 273.15);
-		steinhart = 1.0 / steinhart;
-		steinhart -= 273.15;
-		return Math.round(steinhart);
+		var resistance=parseFloat((1023-value)*10000/value);
+		var temperature=1/(Math.log(resistance/10000)/3975+1/298.15)-273.15;
+		return temperature.toFixed(2);
 	}
-	
-	// cpf setup
-	function setup(){
-		if(cpf)
-			var ret = cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1, "INPUT"]');
-		
+
+	function setup() {
+		if (cpf) {
+			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog",1,"INPUT"], ["setPinMode", "digital",4,"SERVO"]');
+		}
 	}
 
 </script>
+	<style>
+	*{
+		font-family: Microsoft JhengHei;
+	}
+	
+	html,body{
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	
+	body{
+		background-color: #9ccdfb;
+	}
 
-</body>
-</html>
+	.images{
+		position: relative;
+		width: 100%;
+		height: 250px;
+	}
+
+	#thermometer{
+		position: absolute;
+		width: 100%;
+		left: 50%;
+		bottom: 10px;
+		transform: translateX(-50%)
+	}
+
+	#pointer{
+		position: absolute;
+		width: 30%;
+		bottom: 2px;
+		right: 50%;
+		transform: translateX(5px);
+		transform-origin: 100% 50%;
+		transform: rotate(0deg);
+		transition: 0.5s;
+		}
+
+
+
+
+
+
+	</style>
