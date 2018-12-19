@@ -23,8 +23,8 @@
 
 <script>
     var county = [];
-    
-    
+
+
 
     function setup() {
         if (cpf) {
@@ -36,11 +36,11 @@
             //cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
         }
     }
-    
+
 
     window.onload = function () {
         setup();
-        document.getElementById("log").innerHTML='<h1>onload</h1>';
+        document.getElementById("log").innerHTML = '<h1>onload</h1>';
         $.get('http://opendata2.epa.gov.tw/UV/UV.json', function (data) {
             data.forEach(function (e, i) {
                 county[i] = e.County;
@@ -67,15 +67,15 @@
                 myarea = $('#area').val();
                 $('#content').html('');
                 data.forEach(function (e, i) {
-                    document.getElementById("log").innerHTML='<h1>foreach</h1>';
+                    document.getElementById("log").innerHTML = '<h1>foreach</h1>';
                     if (e.SiteName == myarea) {
                         UVI = e['UVI'];
-                        document.getElementById("log").innerHTML='<h1>IF</h1>';
+                        document.getElementById("log").innerHTML = '<h1>IF' + UVI + '</h1>';
                         if (UVI <= 2) {
                             category = "微量級";
                             color = "0,232,0";
                             cpf.request('["tone_play",6,698,300],["sleep",300]');
-                            document.getElementById("log").innerHTML='<h1>TONE</h1>';
+                            document.getElementById("log").innerHTML = '<h1>TONE</h1>';
                         } else if (UVI >= 3 && UVI <= 5) {
                             category = "低量級";
                             color = "255,255,0";
