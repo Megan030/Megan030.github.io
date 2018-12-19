@@ -17,13 +17,14 @@
     <select name="" id="area">
         <option value="choose">請選擇</option>
     </select>
+    <h1 id="log"></h1>
 
 </body>
 
 <script>
     var county = [];
-    /*
-    setup();
+    
+    
 
     function setup() {
         if (cpf) {
@@ -35,10 +36,11 @@
             //cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
         }
     }
-    */
+    
 
     window.onload = function () {
-        window.print('<h1>onload</h1>');
+        setup();
+        document.getElementById("log").innerHTML='<h1>onload</h1>';
         $.get('http://opendata2.epa.gov.tw/UV/UV.json', function (data) {
             data.forEach(function (e, i) {
                 county[i] = e.County;
