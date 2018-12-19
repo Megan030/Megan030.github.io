@@ -37,8 +37,8 @@ $('#city').append('<option value="'+ e +'">'+ e +'</option>')
 })
 
 $('#city').change(function(){
-    mycity = $('#city').val();
-    $('#area').html('');
+    mycity = $city.val();
+    $area.html('');
     data.forEach(function(e,i){
         if(e.County == mycity){
              $('#area').append('<option value="'+ e.SiteName +'">'+ e.SiteName +'</option>')
