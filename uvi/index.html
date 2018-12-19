@@ -36,6 +36,7 @@
     }
 
     window.onload = function () {
+        print("onload");
         $.get('http://opendata2.epa.gov.tw/UV/UV.json', function (data) {
             data.forEach(function (e, i) {
                 county[i] = e.County;
