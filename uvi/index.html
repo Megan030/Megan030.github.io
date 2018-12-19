@@ -20,12 +20,24 @@
 
  <script>
  var county = [];
+ setup();
+
+ function setup() {
+		if (cpf) {
+			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"], ["grove_rgblcd_begin", 16, 2],["setPinMode","digital",6,"TONE"]');
+			//LCD
+			
+			//cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
+			//cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
+		}
+    }
+    
  window.onload = function(){
 $.get('http://opendata2.epa.gov.tw/UV/UV.json',function(data){
 console.log(data);
 data.forEach(function(e,i){
     county[i]=e.County;
-    
+
 });
 console.log(county);
 result=county.filter(function(value,index,arr){
