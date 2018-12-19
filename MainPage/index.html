@@ -52,8 +52,9 @@
 				
 				cpf.request('["grove_rgblcd_print", 0, 1, "Temp: '+ celsius + '"]'); //設定文字
 
-				cpf.request('["tone_play", 6,349,300],["sleep",300]');
+				
 			}
+			cpf.request('["tone_play", 6,349,300],["sleep",300]');
 		}
 		setTimeout(loop,1000);
 	}
