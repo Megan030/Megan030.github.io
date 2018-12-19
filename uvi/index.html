@@ -68,9 +68,8 @@ $('#city').change(function(){
            }else if(UVI>=3 && UVI<=5){
                 category ="低量級";
                 color="255,255,0";
-                cpf.request('["tone_play",6,698,300],["sleep",300]');
-                cpf.request('["tone_play",6,698,300],["sleep",300]');
-                cpf.request('["tone_play",6,698,300],["sleep",300]');
+                cpf.request('["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300]');
+                
            }else if(UVI>=6 && UVI<=7){
                 category ="中量級";
                 color="255,126,0";
