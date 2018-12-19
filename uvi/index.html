@@ -67,6 +67,7 @@
                 myarea = $('#area').val();
                 $('#content').html('');
                 data.forEach(function (e, i) {
+                    document.getElementById("log").innerHTML='<h1>foreach</h1>';
                     if (e.SiteName == myarea) {
                         UVI = e['UVI'];
                         document.getElementById("log").innerHTML='<h1>IF</h1>';
