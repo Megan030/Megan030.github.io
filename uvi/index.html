@@ -1,92 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width,initial-scale=1.0">
- <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- <title>Document</title>
- </head>
- <body>
-     <h1>紫外線指數1219</h1>
-        <select name="" id="city">
-                <option value="choose">請選擇</option>
-            </select>
-     <select name="" id="area">
-         <option value="choose">請選擇</option>
-     </select>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
 
- </body>
+<body>
+    <h1>紫外線指數1219</h1>
+    <select name="" id="city">
+        <option value="choose">請選擇</option>
+    </select>
+    <select name="" id="area">
+        <option value="choose">請選擇</option>
+    </select>
 
- <script>
- var county = [];
- setup();
+</body>
 
- function setup() {
-		if (cpf) {
-			cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"], ["grove_rgblcd_begin", 16, 2],["setPinMode","digital",6,"TONE"]');
-			//LCD
-			
-			//cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
-			//cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
-		}
-    }
-    
- window.onload = function(){
-$.get('http://opendata2.epa.gov.tw/UV/UV.json',function(data){
-data.forEach(function(e,i){
-    county[i]=e.County;
+<script>
+    var county = [];
+    setup();
 
-});
+    function setup() {
+        if (cpf) {
+            cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"], ["grove_rgblcd_begin", 16, 2],["setPinMode","digital",6,"TONE"]');
+            //LCD
+            print("setup");
 
-result=county.filter(function(value,index,arr){
-    return arr.indexOf(value)===index;
-});
-
-
-result.forEach(function(e){
-$('#city').append('<option value="'+ e +'">'+ e +'</option>')
-})
-
-$('#city').change(function(){
-    mycity = $('#city').val();
-    $('#area').html('');
-    data.forEach(function(e,i){
-        if(e.County == mycity){
-             $('#area').append('<option value="'+ e.SiteName +'">'+ e.SiteName +'</option>')
+            //cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
+            //cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
         }
-    });
-   myarea=$('#area').val();
-   $('#content').html('');
-   data.forEach(function(e,i){
-       if(e.SiteName == myarea){
-           UVI=e['UVI'];
-           if(UVI<=2){
-               category ="微量級";
-               color="0,232,0";
-               cpf.request('["tone_play",6,698,300],["sleep",300]');
-           }else if(UVI>=3 && UVI<=5){
-                category ="低量級";
-                color="255,255,0";
-                cpf.request('["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300]');
-                
-           }else if(UVI>=6 && UVI<=7){
-                category ="中量級";
-                color="255,126,0";
-           }else if(UVI>=8 && UVI<=10){
-                category ="過量級";
-                color="255,0,0";
-           }else {
-                category ="危險級";
-                color="143,63,151";
-           }
-           $('#content').append('<tr><td>'+myarea+'</td>'+ '<td>'+e['UVI']+'</td>'+'<td>'+category+'</td></tr>');
-       }
+    }
 
-   
-});
-});
-});
-}
- </script>
- </html>
+    window.onload = function () {
+        $.get('http://opendata2.epa.gov.tw/UV/UV.json', function (data) {
+            data.forEach(function (e, i) {
+                county[i] = e.County;
+
+            });
+
+            result = county.filter(function (value, index, arr) {
+                return arr.indexOf(value) === index;
+            });
+
+
+            result.forEach(function (e) {
+                $('#city').append('<option value="' + e + '">' + e + '</option>')
+            })
+
+            $('#city').change(function () {
+                mycity = $('#city').val();
+                $('#area').html('');
+                data.forEach(function (e, i) {
+                    if (e.County == mycity) {
+                        $('#area').append('<option value="' + e.SiteName + '">' + e.SiteName + '</option>')
+                    }
+                });
+                myarea = $('#area').val();
+                $('#content').html('');
+                data.forEach(function (e, i) {
+                    if (e.SiteName == myarea) {
+                        UVI = e['UVI'];
+                        if (UVI <= 2) {
+                            category = "微量級";
+                            color = "0,232,0";
+                            cpf.request('["tone_play",6,698,300],["sleep",300]');
+                        } else if (UVI >= 3 && UVI <= 5) {
+                            category = "低量級";
+                            color = "255,255,0";
+                            cpf.request('["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300]');
+
+                        } else if (UVI >= 6 && UVI <= 7) {
+                            category = "中量級";
+                            color = "255,126,0";
+                        } else if (UVI >= 8 && UVI <= 10) {
+                            category = "過量級";
+                            color = "255,0,0";
+                        } else {
+                            category = "危險級";
+                            color = "143,63,151";
+                        }
+                        $('#content').append('<tr><td>' + myarea + '</td>' + '<td>' + e['UVI'] + '</td>' + '<td>' + category + '</td></tr>');
+                    }
+
+
+                });
+            });
+        });
+    }
+</script>
+
+</html>
