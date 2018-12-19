@@ -55,6 +55,11 @@
 				
 			}
 			cpf.request('["tone_play",6,698,300],["sleep",300]');
+			//control digital-out
+		
+			var a0 = ui.get("socket a0");
+			cpf.set("socket a0",d2);
+			cpf.repeat();
 		}
 		setTimeout(loop,1000);
 	}
