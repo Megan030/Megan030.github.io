@@ -44,8 +44,8 @@ $('#city').change(function(){
              $('#area').append('<option value="'+ e.SiteName +'">'+ e.SiteName +'</option>')
         }
     });
-   myarea=$area.val();
-   $content.html('');
+   myarea=$('#area').val();
+   $('#content').html('');
    data.forEach(function(e,i){
        if(e.SiteName == myarea){
            UVI=e['UVI'];
@@ -69,7 +69,7 @@ $('#city').change(function(){
                 category ="危險級";
                 color="143,63,151";
            }
-           $content.append('<tr><td>'+myarea+'</td>'+ '<td>'+e['UVI']+'</td>'+'<td>'+category+'</td></tr>');
+           $('#content').append('<tr><td>'+myarea+'</td>'+ '<td>'+e['UVI']+'</td>'+'<td>'+category+'</td></tr>');
        }
 
    
