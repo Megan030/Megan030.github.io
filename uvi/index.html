@@ -66,7 +66,7 @@
                 $('#content').html('');
                 data.forEach(function (e, i) {
                     document.getElementById("log").innerHTML = '<h1>foreach' + e.SiteName + 'f' + myarea + 'for</h1>';
-                    if (e.SiteName == myarea) {
+                    //if (e.SiteName == myarea) {
                         UVI = e['UVI'];
                         document.getElementById("log").innerHTML = '<h1>IF' + UVI + 'if</h1>';
                         if (UVI = 0) {
@@ -92,7 +92,7 @@
                             color = "143,63,151";
                         }
                         $('#content').append('<tr><td>' + myarea + '</td>' + '<td>' + e['UVI'] + '</td>' + '<td>' + category + '</td></tr>');
-                    }
+                    //}
 
 
                 });
