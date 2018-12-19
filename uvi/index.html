@@ -25,6 +25,7 @@ $.get('http://opendata2.epa.gov.tw/UV/UV.json',function(data){
 console.log(data);
 data.forEach(function(e,i){
     county[i]=e.County;
+    
 });
 console.log(county);
 result=county.filter(function(value,index,arr){
