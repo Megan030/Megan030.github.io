@@ -23,6 +23,7 @@
 <br/>
 <h3>Degerr"<span id="degree">none</span>ﾟ</h3>
 <h3>Temperature:<span id="temp">none</span>ﾟC</h3>
+<h3>button:<span id="btn">none</span>ﾟC</h3>
 
 </div>
 </div>
@@ -60,7 +61,7 @@
 			var a0 = ui.get("socket a0");
 			cpf.set("socket a0",a0);
 			cpf.repeat();
-			print("f");
+			document.getElementById("btn").innerHTML=a0;
 		}
 		setTimeout(loop,1000);
 	}
