@@ -29,9 +29,7 @@
     function setup() {
         if (cpf) {
             cpf.setPinMode('["resetPin"] ,["setPinMode", "analog", 1,"INPUT"], ["setPinMode", "digital", 4, "SERVO"], ["grove_rgblcd_begin", 16, 2],["setPinMode","digital",6,"TONE"]');
-            //LCD
-            print("setup");
-
+            //LCD            
             //cpf.setPinMode('["resetPin"],["grove_rgblcd_begin", 16, 2]');
             //cpf.request('["grove_rgblcd_set_rgb", 255, 0, 0]'); //設定LCD背光顏色
         }
@@ -79,7 +77,7 @@
                         } else if (UVI >= 3 && UVI <= 5) {
                             category = "低量級";
                             color = "255,255,0";
-                            cpf.request('["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300]');
+                            //cpf.request('["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300],["tone_play",6,698,300],["sleep",300]');
 
                         } else if (UVI >= 6 && UVI <= 7) {
                             category = "中量級";
