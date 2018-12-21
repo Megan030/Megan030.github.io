@@ -47,15 +47,7 @@
 				degree=Math.floor((180/80)*celsius+67.5);
 				document.getElementById("pointer").style.transform="rotate("+degree+"deg)";
 				document.getElementById("degree").innerHTML=degree;
-				//cpf.request('["analogWrite", 4,'+Math.abs(degree-180)+']');
-
-				if (i=0) {
-					cpf.request('["analogWrite", 4, 0]');
-					i=1;
-				}else{
-					cpf.request('["analogWrite", 4, 180]');
-					i=0;
-				}
+				//cpf.request('["analogWrite", 4,'+Math.abs(degree-180)+']');		
 
 				//LCD				
 				cpf.request('["grove_rgblcd_clear"]'); //清空文字
@@ -66,6 +58,14 @@
 			}
 			//cpf.request('["tone_play",6,698,300],["sleep",300]');
 			//control digital-out
+
+			if (i=0) {
+					cpf.request('["analogWrite", 4, 0]');
+					i=1;
+				}else{
+					cpf.request('["analogWrite", 4, 180]');
+					i=0;
+				}
 		
 		
 			var d2 = ui.get("socket d2");
