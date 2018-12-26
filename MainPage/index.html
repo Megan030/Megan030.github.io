@@ -67,11 +67,12 @@
 			if (i == 0) {
 				cpf.request('["analogWrite", 4, 5]');
 				document.getElementById("degree").innerHTML = '5';
-				
+				console.log('5');
 			} else if (i == 5) {
 				cpf.request('["analogWrite", 4, 175]');
 				i = 0;
 				document.getElementById("degree").innerHTML = '175';
+				console.log('175');
 			}
 			i=i+1;
 			document.getElementById("temp").innerHTML = i;
