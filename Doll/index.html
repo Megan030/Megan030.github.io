@@ -108,7 +108,7 @@
 
 
 		function cpf_loop() {
-			while (cpf.isForeground() == true) {
+			while (cpf) {
 				JoystickData = JoystickGetValue();
 				JoystickData = JsonJoyStickData_X(JoystickData);
 				JoystickData = JsonJoyStickData_Y(JoystickData);
