@@ -59,9 +59,9 @@
 				JoystickData = JsonJoyStickData_X(JoystickData);
 				JoystickData = JsonJoyStickData_Y(JoystickData);
 				joystick = JsonJoyStickData_X(JoystickData);
-				if (joystick < 100) {
+				//if (joystick < 100) {
 					cpf.set("D3", "pwm", 255);
-				}
+				//}
 
 				cpf.set("D5", "pwm", 0);
 				cpf.set("D6", "pwm", 255);	//ui.get("D6")
